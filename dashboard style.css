@@ -1,4 +1,4 @@
-/* ===== Dashboard Cards ===== */
+
 .dashboard-container {
   display: flex;
   flex-wrap: wrap;
@@ -26,7 +26,6 @@
   color: #213448;
 }
 
-/* ===== Tasks List ===== */
 .tasks-container {
   background: #fff;
   padding: 20px;
@@ -79,7 +78,6 @@
   background: #15803d;
 }
 
-/* ===== Quick Summary Box ===== */
 .summary {
   margin-top: 20px;
   background: #eef2f7;
@@ -91,7 +89,6 @@
   text-align: center;
 }
 
-/* ===== Responsive ===== */
 @media (max-width: 768px) {
   .dashboard-container {
     flex-direction: column;
