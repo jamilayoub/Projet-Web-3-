@@ -170,7 +170,7 @@ footer {
   padding: 10px;
   width: 100%;
 }
-/*mobile*/
+
 @media (max-width: 768px) {
   .navbar {
     flex-direction: column;
