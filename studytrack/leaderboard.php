@@ -10,18 +10,26 @@ if (!isset($_SESSION["user_id"])) {
 $current_user = $_SESSION["user_id"];
 
 $sql = "
-    SELECT
-        u.id,
-        u.username,
-        COALESCE(SUM(sh.hours), 0) AS total_hours,
-        COALESCE(COUNT(CASE WHEN t.status='completed' THEN 1 END), 0) AS completed_tasks,
-        (COALESCE(SUM(sh.hours), 0) * 10) +
-        (COALESCE(COUNT(CASE WHEN t.status='completed' THEN 1 END), 0) * 10) AS points
-    FROM users u
-    LEFT JOIN study_hours sh ON sh.user_id = u.id
-    LEFT JOIN tasks t        ON t.user_id  = u.id
-    GROUP BY u.id, u.username
-    ORDER BY points DESC
+   SELECT
+    u.id,
+    u.username,
+    COALESCE(sh.total_hours, 0) AS total_hours,
+    COALESCE(t.completed_tasks, 0) AS completed_tasks,
+    (COALESCE(sh.total_hours, 0) * 10) +
+    (COALESCE(t.completed_tasks, 0) * 10) AS points
+FROM users u
+LEFT JOIN (
+    SELECT user_id, SUM(hours) AS total_hours
+    FROM study_hours
+    GROUP BY user_id
+) sh ON sh.user_id = u.id
+LEFT JOIN (
+    SELECT user_id, COUNT(*) AS completed_tasks
+    FROM tasks
+    WHERE status = 'completed'
+    GROUP BY user_id
+) t ON t.user_id = u.id
+ORDER BY points DESC
 ";
 
 $students = $conn->query($sql)->fetch_all(MYSQLI_ASSOC);
